@@ -1,7 +1,7 @@
 /**
  * Stepper React Native component
  * children must have flex: 1 styling
- * receives 'slide' prop and shows that element
+ * receives 'position' prop and shows that element
  */
 
 import React, { Component } from 'react';
@@ -24,17 +24,18 @@ class Stepper extends Component {
       position: new Animated.Value(0),
     };
   }
-
+  componentWillMount(){
+    this.state.position.setValue(- screen.width * this.props.position)
+  }
   componentWillReceiveProps(nextProps){
     Animated.spring(
       this.state.position,
       {
-        toValue: - screen.width * nextProps.slide,
+        toValue: - screen.width * nextProps.position,
         friction: 10
       }
     ).start()
   }
-
   render() {
     return (
       <Animated.View style={[styles.container, {
